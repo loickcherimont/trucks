@@ -1,22 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trucks- Login</title>
-</head>
-<body>
-    {{if .InvalidCredentials}}
-        <p class="error" style="color: red;">Username/Password are wrong!</p>
-    {{end}}
-    <form method="POST" action="/login">
-        <label for="username">Username:</label>
-        <input type="text" name="username" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" name="password" required>
-        <br>
-        <button type="submit">Login</button>
-    </form>
-</body>
-</html>
+{{template "header.tmpl"}}
+{{if .InvalidCredentials}}
+<p class="error" style="color: red;">Username/Password are wrong!</p>
+{{end}}
+<form method="POST" action="/login">
+    <label for="username">Username:</label>
+    <input type="text" name="username" required>
+    <br>
+    <label for="password">Password:</label>
+    <input type="password" name="password" required>
+    <br>
+    <button type="submit">Login</button>
+</form>
+{{template "footer.tmpl"}}

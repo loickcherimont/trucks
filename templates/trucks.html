@@ -1,21 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trucks</title>
-</head>
-
-<body>
+{{template "header.tmpl"}}
     <header>
         <h1>Trucks</h1>
         <p>Lots of trucks</p>
-        <nav>
-            <a href="/admin">Home</a>
-            <a href="/admin/trucks">Trucks</a>
-        </nav>
-        <a href="/logout">Logout</a>
+        {{template "nav.tmpl"}}
     </header>
 
     <div class="trucks" style="display: flex; justify-content: space-around;">
@@ -31,9 +18,4 @@
         </div>
         {{end}}
     </div>
-
-
-
-</body>
-
-</html>
+{{template "footer.tmpl"}}
