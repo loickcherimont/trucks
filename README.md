@@ -1,7 +1,7 @@
 # Trucks_Go
 
 
-![Preview](https://placehold.co/600x400 "Multidownloader_Go")
+![Preview](https://placehold.co/600x400 "Trucks_Go")
 
 
 ## :information_source: About  
@@ -24,7 +24,6 @@ git clone git@github.com:loickcherimont/trucks.git
 
 ```bash
 cd trucks
-go get .
 go run main.go
 ```
 
@@ -46,9 +45,9 @@ into an inner /out folder.
 > A better version with more features is coming... 🏗️
 
 <!--## :test_tube: Features
-- Empty the cart with a button
-- Move the cart in a new place
-- Add filters-->
+- (Bugfix) Load env file
+
+-->
 
 
 ## :key: License
@@ -57,6 +56,6 @@ Developed by Loick Cherimont
 
 Under MIT License  
 
-Last edition : 2024-10-29
+Last edition : 2024-10-31
 
 
