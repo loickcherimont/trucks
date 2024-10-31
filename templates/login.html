@@ -6,6 +6,9 @@
     <title>Trucks- Login</title>
 </head>
 <body>
+    {{if .InvalidCredentials}}
+        <p class="error" style="color: red;">Username/Password are wrong!</p>
+    {{end}}
     <form method="POST" action="/login">
         <label for="username">Username:</label>
         <input type="text" name="username" required>
