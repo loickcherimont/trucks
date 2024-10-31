@@ -10,6 +10,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/sessions"
+	"github.com/loickcherimont/trucks/internal/models"
 )
 
 // To initialize sessions
@@ -30,10 +31,14 @@ func main() {
 	}
 
 	// Routes
+	// Main ones
 	router.HandleFunc("/", indexHandler)
 	router.HandleFunc("/login", loginHandler)
-	router.HandleFunc("/home", homeHandler)
 	router.HandleFunc("/logout", logoutHandler)
+
+	// Account routes
+	router.HandleFunc("/admin", checkLogging(adminHandler))
+	router.HandleFunc("/admin/trucks", checkLogging(trucksHandler))
 
 	// Run the server
 	fmt.Println("Server listening on: http://" + srv.Addr)
@@ -43,33 +48,42 @@ func main() {
 }
 
 // HANDLERS
+
+// Execute ./templates/index.html page without authentication
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles("./templates/index.html"))
 	tmpl.Execute(w, nil)
 }
 
+// GET: Execute ./templates/login.html page
+// POST: Connect user to admin session
 func loginHandler(w http.ResponseWriter, r *http.Request) {
+
+	// To indicate user if he/she use wrong username/password
+	var invalidCredentials bool
+
 	if r.Method == http.MethodPost {
 		username := r.FormValue("username")
 		password := r.FormValue("password")
 
-		if username == os.Getenv("USERNAME") && password == os.Getenv("PASSWORD") {
+		if username == os.Getenv("TRUCKS_USERNAME") && password == os.Getenv("TRUCKS_PASSWORD") {
 			session, err := store.Get(r, "cookie-name")
 			processError(err, w)
 
 			session.Values["authenticated"] = true
 			session.Save(r, w)
-			http.Redirect(w, r, "/home", http.StatusSeeOther)
+			http.Redirect(w, r, "/admin", http.StatusSeeOther)
 			return
 		}
 
-		http.Error(w, "Invalid credentials", http.StatusUnauthorized)
-		return
+		// User connects with wrong data
+		invalidCredentials = true
 	}
 	tmpl := template.Must(template.ParseFiles("./templates/login.html"))
-	tmpl.Execute(w, nil)
+	tmpl.Execute(w, struct{ InvalidCredentials bool }{invalidCredentials})
 }
 
+// Disconnect user from admin session
 func logoutHandler(w http.ResponseWriter, r *http.Request) {
 	session, err := store.Get(r, "cookie-name")
 	processError(err, w)
@@ -81,18 +95,41 @@ func logoutHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
 
-func homeHandler(w http.ResponseWriter, r *http.Request) {
+// Execute ./templates/admin.html page
+func adminHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl := template.Must(template.ParseFiles("./templates/admin.html"))
+	tmpl.Execute(w, nil)
+}
 
-	session, err := store.Get(r, "cookie-name")
-	processError(err, w)
+// Execute ./templates/trucks.html page
+func trucksHandler(w http.ResponseWriter, r *http.Request) {
 
-	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
-		http.Redirect(w, r, "/login", http.StatusSeeOther)
-		return
+	// Sample: data for trucks
+	trucks := []models.Truck{
+		{FuelType: "Diesel", Payload: 44, Distance: 500},
+		{FuelType: "Gasoline", Payload: 19, Distance: 200},
+		{FuelType: "Electricity", Payload: 3.5, Distance: 100},
 	}
 
-	tmpl := template.Must(template.ParseFiles("./templates/home.html"))
-	tmpl.Execute(w, nil)
+	tmpl := template.Must(template.ParseFiles("./templates/trucks.html"))
+	tmpl.Execute(w, trucks)
+}
+
+// MIDDLEWARES
+
+// Prevent user uses /admin/* without authentication
+func checkLogging(h http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		session, err := store.Get(r, "cookie-name")
+		processError(err, w)
+
+		if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+			http.Redirect(w, r, "/login", http.StatusUnauthorized)
+			return
+		}
+
+		h(w, r)
+	}
 }
 
 // UTILS
