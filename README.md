@@ -24,6 +24,10 @@ git clone git@github.com:loickcherimont/trucks.git
 
 ```bash
 cd trucks
+
+# Choose simple login data
+export TRUCKS_USERNAME=YOUR_USERNAME 
+export TRUCKS_PASSWORD=YOUR_PASSWORD
 go run main.go
 ```
 
