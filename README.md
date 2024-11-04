@@ -59,8 +59,15 @@ TODO definitive (for now)
   - POST /admin/truck{id} -> Create a new truck
   - PUT /admin/truck{id} -> Modify info on a truck
   - DELETE /admin/truck/{id} -> Delete a specific truck 
-> Add a database to the project
-
+  
+//////////////////////// BEGIN - DEFINITIVE TODO FOR NOW ///////////////////////////
+// What do I build with MySQL
+// DBName: db_transport
+// 2 tables:
+// - trucks: Store 3 trucks
+// - user_admin: Store admin info (superUser)
+// For user_admin : hash the password before add it to database (https://gowebexamples.com/password-hashing/)
+//////////////////////// END - DEFINITIVE TODO FOR NOW ///////////////////////////
 -->
 
 
