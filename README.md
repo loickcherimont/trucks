@@ -49,7 +49,6 @@ into an inner /out folder.
 > A better version with more features is coming... 🏗️
 
 <!--## :test_tube: Features
-- (Bugfix) Load env file
 
 TODO definitive (for now)
 > Create a type User
@@ -60,14 +59,14 @@ TODO definitive (for now)
   - PUT /admin/truck{id} -> Modify info on a truck
   - DELETE /admin/truck/{id} -> Delete a specific truck 
   
-//////////////////////// BEGIN - DEFINITIVE TODO FOR NOW ///////////////////////////
+//////////////////////// FOR DATABASE ///////////////////////////
 // What do I build with MySQL
 // DBName: db_transport
 // 2 tables:
 // - trucks: Store 3 trucks
 // - user_admin: Store admin info (superUser)
 // For user_admin : hash the password before add it to database (https://gowebexamples.com/password-hashing/)
-//////////////////////// END - DEFINITIVE TODO FOR NOW ///////////////////////////
+//////////////////////// END - FOR DATABASE ///////////////////////////
 -->
 
 
@@ -77,6 +76,6 @@ Developed by Loick Cherimont
 
 Under MIT License  
 
-Last edition : 2024-10-31
+Last edition : 2024-10-04
 
 
