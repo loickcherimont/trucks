@@ -51,6 +51,16 @@ into an inner /out folder.
 <!--## :test_tube: Features
 - (Bugfix) Load env file
 
+TODO definitive (for now)
+> Create a type User
+> Build a CRUD interface for /admin/trucks to manage trucks
+  - GET /admin/trucks -> GET all trucks
+  - GET /admin/truck/{id} -> Get a specific truck by its ID
+  - POST /admin/truck{id} -> Create a new truck
+  - PUT /admin/truck{id} -> Modify info on a truck
+  - DELETE /admin/truck/{id} -> Delete a specific truck 
+> Add a database to the project
+
 -->
 
 
