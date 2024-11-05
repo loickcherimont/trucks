@@ -6,10 +6,15 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/loickcherimont/trucks/database"
+	"github.com/loickcherimont/trucks/internal/models"
 	"github.com/loickcherimont/trucks/internal/routes"
 )
 
 func Run(addr string) {
+	// Run the database before
+	// tips: may be use goroutines?
+	database.InitDB("db_transport", &models.U)
 	router := routes.GetRoutes()
 	srv := &http.Server{
 		Handler:      router,
