@@ -51,7 +51,8 @@ into an inner /out folder.
 <!--## :test_tube: Features
 
 TODO definitive (for now)
-> Create a type User
+> Create a type User [ok]
+> Fix error!
 > Build a CRUD interface for /admin/trucks to manage trucks
   - GET /admin/trucks -> GET all trucks
   - GET /admin/truck/{id} -> Get a specific truck by its ID
@@ -60,12 +61,11 @@ TODO definitive (for now)
   - DELETE /admin/truck/{id} -> Delete a specific truck 
   
 //////////////////////// FOR DATABASE ///////////////////////////
-// What do I build with MySQL
-// DBName: db_transport
+// DBName: db_transport ok
+
 // 2 tables:
 // - trucks: Store 3 trucks
-// - user_admin: Store admin info (superUser)
-// For user_admin : hash the password before add it to database (https://gowebexamples.com/password-hashing/)
+// - user_admin: Store admin info (superUser) [ok]
 //////////////////////// END - FOR DATABASE ///////////////////////////
 -->
 
@@ -76,6 +76,6 @@ Developed by Loick Cherimont
 
 Under MIT License  
 
-Last edition : 2024-10-04
+Last edition : 2024-11-04
 
 
