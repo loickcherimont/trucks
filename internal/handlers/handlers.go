@@ -3,8 +3,8 @@ package handlers
 import (
 	"html/template"
 	"net/http"
-	"os"
 
+	"github.com/loickcherimont/trucks/database"
 	"github.com/loickcherimont/trucks/internal/models"
 	"github.com/loickcherimont/trucks/internal/utils"
 )
@@ -24,14 +24,27 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 // POST: Connect user to admin session
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
-	// To indicate user if he/she uses wrong username/password
-	var invalidCredentials bool
+	var (
+		// To indicate user if he/she uses wrong username/password
+		invalidCredentials bool
+		retrievedUser      models.RetrievedUser
+	)
 
 	if r.Method == http.MethodPost {
+
+		// Login/password that user inputs
 		username := r.FormValue("username")
 		password := r.FormValue("password")
 
-		if username == os.Getenv("TRUCKS_USERNAME") && password == os.Getenv("TRUCKS_PASSWORD") {
+		// Check if password and hash version are OK
+
+		if !utils.CheckHashPassword(models.U.HashedPassword, password) {
+			http.Error(w, "Hash and password wrong", http.StatusInternalServerError)
+		}
+		// Retrieve login/password from database
+		retrievedUser = database.FetchData(username, password, retrievedUser)
+
+		if username == retrievedUser.Login && password == retrievedUser.Password {
 			session, err := models.Store.Get(r, "cookie-name")
 			utils.ProcessError(err, w)
 
