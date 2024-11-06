@@ -1,6 +1,6 @@
 {{template "header.tmpl"}}
 {{if .InvalidCredentials}}
-<p class="error" style="color: red;">Username/Password are wrong!</p>
+<p class="error" style="color: red;">Invalid login or password!</p>
 {{end}}
 <form method="POST" action="/login">
     <label for="username">Username:</label>
