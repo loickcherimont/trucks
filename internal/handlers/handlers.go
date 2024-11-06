@@ -4,7 +4,7 @@ import (
 	"html/template"
 	"net/http"
 
-	"github.com/loickcherimont/trucks/database"
+	"github.com/loickcherimont/trucks/internal/database"
 	"github.com/loickcherimont/trucks/internal/models"
 	"github.com/loickcherimont/trucks/internal/utils"
 )
@@ -27,7 +27,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	var (
 		// To indicate user if he/she uses wrong username/password
 		invalidCredentials bool
-		retrievedUser      models.RetrievedUser
+		// retrievedUser      models.RetrievedUser
 	)
 
 	if r.Method == http.MethodPost {
@@ -36,16 +36,9 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 		username := r.FormValue("username")
 		password := r.FormValue("password")
 
-		// Check if password and hash version are OK
-
-		if !utils.CheckHashPassword(models.U.HashedPassword, password) {
-			http.Error(w, "Hash and password wrong", http.StatusInternalServerError)
-		}
-		// Retrieve login/password from database
-		retrievedUser = database.FetchData(username, password, retrievedUser)
-
-		if username == retrievedUser.Login && password == retrievedUser.Password {
-			session, err := models.Store.Get(r, "cookie-name")
+		// Verify if user's inputs and user_admin data are the same
+		if username == models.U.Login && password == models.U.Password {
+			session, err := models.Store.Get(r, "session-name")
 			utils.ProcessError(err, w)
 
 			session.Values["authenticated"] = true
@@ -63,7 +56,7 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 // Disconnect user from admin session
 func LogoutHandler(w http.ResponseWriter, r *http.Request) {
-	session, err := models.Store.Get(r, "cookie-name")
+	session, err := models.Store.Get(r, "session-name")
 	utils.ProcessError(err, w)
 
 	session.Values["authenticated"] = false
@@ -82,15 +75,17 @@ func AdminHandler(w http.ResponseWriter, r *http.Request) {
 // Execute ./templates/trucks.html page
 func TrucksHandler(w http.ResponseWriter, r *http.Request) {
 
-	// Sample: data for trucks
-	trucks := []models.Truck{
-		{FuelType: "Diesel", Payload: 44, Distance: 500},
-		{FuelType: "Gasoline", Payload: 19, Distance: 200},
-		{FuelType: "Electricity", Payload: 3.5, Distance: 100},
-	}
+	// trucks := []models.Truck{
+	// 	{FuelType: "Diesel", Payload: 44, Distance: 500},
+	// 	{FuelType: "Gasoline", Payload: 19, Distance: 200},
+	// 	{FuelType: "Electricity", Payload: 3.5, Distance: 100},
+	// }
+
+	// Retrieve all trucks from FetchAllData
+	models.Trucks = database.FetchAllData()
 
 	tmpl := template.Must(template.ParseGlob(templatePath))
-	utils.ProcessError(tmpl.ExecuteTemplate(w, "trucks.html", trucks), w)
+	utils.ProcessError(tmpl.ExecuteTemplate(w, "trucks.html", models.Trucks), w)
 }
 
 // REMARKS :

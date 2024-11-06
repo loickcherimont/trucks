@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/loickcherimont/trucks/database"
+	"github.com/loickcherimont/trucks/internal/database"
 	"github.com/loickcherimont/trucks/internal/models"
 	"github.com/loickcherimont/trucks/internal/routes"
 )
