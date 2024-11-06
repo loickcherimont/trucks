@@ -51,8 +51,6 @@ into an inner /out folder.
 <!--## :test_tube: Features
 
 TODO definitive (for now)
-> Create a type User [ok]
-> Fix error!
 > Build a CRUD interface for /admin/trucks to manage trucks
   - GET /admin/trucks -> GET all trucks
   - GET /admin/truck/{id} -> Get a specific truck by its ID
@@ -61,12 +59,16 @@ TODO definitive (for now)
   - DELETE /admin/truck/{id} -> Delete a specific truck 
   
 //////////////////////// FOR DATABASE ///////////////////////////
-// DBName: db_transport ok
-
 // 2 tables:
 // - trucks: Store 3 trucks
-// - user_admin: Store admin info (superUser) [ok]
 //////////////////////// END - FOR DATABASE ///////////////////////////
+
+LATER Fix :
+- 		// database/database.go Fix: Prevent duplication of the previous query
+		// about user_admin table
+
+- `session, err := models.Store.Get(r, "session-name")
+			utils.ProcessError(err, w)` that line is repetitive in handlers/handlers.go and middlewares/middlewares.go
 -->
 
 
