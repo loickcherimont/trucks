@@ -2,8 +2,11 @@ package handlers
 
 import (
 	"html/template"
+	"log"
 	"net/http"
+	"strconv"
 
+	"github.com/gorilla/mux"
 	"github.com/loickcherimont/trucks/internal/database"
 	"github.com/loickcherimont/trucks/internal/models"
 	"github.com/loickcherimont/trucks/internal/utils"
@@ -27,7 +30,6 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	var (
 		// To indicate user if he/she uses wrong username/password
 		invalidCredentials bool
-		// retrievedUser      models.RetrievedUser
 	)
 
 	if r.Method == http.MethodPost {
@@ -74,18 +76,36 @@ func AdminHandler(w http.ResponseWriter, r *http.Request) {
 
 // Execute ./templates/trucks.html page
 func TrucksHandler(w http.ResponseWriter, r *http.Request) {
-
-	// trucks := []models.Truck{
-	// 	{FuelType: "Diesel", Payload: 44, Distance: 500},
-	// 	{FuelType: "Gasoline", Payload: 19, Distance: 200},
-	// 	{FuelType: "Electricity", Payload: 3.5, Distance: 100},
-	// }
-
-	// Retrieve all trucks from FetchAllData
 	models.Trucks = database.FetchAllData()
 
 	tmpl := template.Must(template.ParseGlob(templatePath))
 	utils.ProcessError(tmpl.ExecuteTemplate(w, "trucks.html", models.Trucks), w)
+}
+
+// Delete a specific truck from DB
+// Redirect user to /admin/trucks after deletion
+func DeleteTruck(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.Atoi(mux.Vars(r)["id"])
+	if err != nil {
+		log.Fatalln("Conversion error on id: ", err)
+	}
+	database.DeleteById(int64(id), models.Trucks)
+
+	http.Redirect(w, r, "/admin/trucks", http.StatusSeeOther)
+}
+
+// TODO - AddTruck func
+func AddTruck(w http.ResponseWriter, r *http.Request) {
+
+	// -- Instructions for future updates -- :
+
+	// Fetch all submitted data + create new ID
+
+	// Store data into a new {}Truck
+
+	// Update DB (Add to DB the new truck)
+
+	// Redirect user to /admin/trucks
 }
 
 // REMARKS :
