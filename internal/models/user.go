@@ -6,9 +6,4 @@ type User struct {
 	HashedPassword string
 }
 
-type RetrievedUser struct {
-	Login    string
-	Password string
-}
-
 var U User
