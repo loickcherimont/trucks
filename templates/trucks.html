@@ -1,22 +1,38 @@
 {{template "header.tmpl"}}
-    <header>
-        <h1>Trucks</h1>
-        <p>Lots of trucks</p>
-        {{template "nav.tmpl"}}
-    </header>
+<header>
+    <h1>Trucks</h1>
+    <p>Lots of trucks</p>
+    {{template "nav.tmpl"}}
+</header>
 
-    <div class="trucks" style="display: flex; justify-content: space-around;">
-        {{range $index, $truck := .}}
-        <div id="truck-{{$index}}">
-            <h2>Truck no. {{$index}}</h2>
-            <p>Informations</p>
-            <ul>
-                <li>{{$truck.Id}}</li>
-                <li>{{$truck.FuelType}}</li>
-                <li>{{$truck.Payload}} T</li>
-                <li>{{$truck.Distance}}Km</li>
-            </ul>
-        </div>
-        {{end}}
-    </div>
+<form action="/admin/trucks/add" method="POST">
+    <h2>Add new trucks here</h2>
+    <label for="fuelType">Fuel Type</label>
+    <input type="text" id="fuelType" name="fuel_type"/>
+    <label for="payload">Payload</label>
+    <input type="text" id="payload" name="payload"/>
+    <label for="distance">Distance</label>
+    <input type="text" id="distance" name="distance"/>
+    <button>Add</button>
+</form>
+
+<table class="trucks">
+    <tr>
+        <th>Id.</th>
+        <th>Fuel Type</th>
+        <th>Payload</th>
+        <th>Distance</th>
+        <th>Delete</th>
+    </tr>
+    {{range $index, $truck := .}}
+    <tr id="truck-{{$index}}">
+        <td>{{$truck.Id}}</td>
+        <td>{{$truck.FuelType}}</td>
+        <td>{{$truck.Payload}} T</td>
+        <td>{{$truck.Distance}}Km</td>
+        <td><a href="/admin/trucks/delete/{{$truck.Id}}" role="button">Delete</a></td>
+    </tr>
+    {{end}}
+</table>
+
 {{template "footer.tmpl"}}
