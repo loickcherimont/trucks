@@ -20,55 +20,45 @@ This repository is a GO project focused on truck management in the transport ind
 git clone git@github.com:loickcherimont/trucks.git
 ```
 
-2. Go in the project , fetch all dependencies and run it
+2. Go in the project , fetch all dependencies and run it.
 
+<!-- Verify if "go install ." it's OK! -->
 ```bash
 cd trucks
-
-# Choose simple login data
-export TRUCKS_USERNAME=YOUR_USERNAME 
-export TRUCKS_PASSWORD=YOUR_PASSWORD
-go run main.go
+go install . 
 ```
 
-3. Open your web browser and run Go server using:
+3. Store login data into an `.env` file at the root.
 ```bash
-http://127.0.0.1:8080
+# .env
+TRUCKS_USERNAME=YOUR_USERNAME 
+TRUCKS_PASSWORD=YOUR_PASSWORD
 ```
 
-<!--## :warning: Prerequisites
-To run correctly this project, you'll a server use : [Vite 5.3.1](https://vitejs.dev/ "Vite official website")-->
+4. Open a terminal at the root of the project and run the project using `go run main.go`.
 
+4. Go on your favorite browser at: `http://127.0.0.1:8080` to see the first page of the application.
+
+<!--## :warning: Prerequisites -->
 <!--## :thinking: How does it run ?
-Click on the button to send a request to server and downloader 2 files at the same time
-
-into an inner /out folder.
 -->
 
 > [!NOTE]
 > A better version with more features is coming... 🏗️
 
 <!--## :test_tube: Features
+- Implement AddTruck func logic
 
-TODO definitive (for now)
-> Build a CRUD interface for /admin/trucks to manage trucks
-  - GET /admin/trucks -> GET all trucks
-  - GET /admin/truck/{id} -> Get a specific truck by its ID
-  - POST /admin/truck{id} -> Create a new truck
-  - PUT /admin/truck{id} -> Modify info on a truck
-  - DELETE /admin/truck/{id} -> Delete a specific truck 
-  
-//////////////////////// FOR DATABASE ///////////////////////////
-// 2 tables:
-// - trucks: Store 3 trucks
-//////////////////////// END - FOR DATABASE ///////////////////////////
-
-LATER Fix :
+**********
+With Gin
+- Build a CRUD interface for /admin/trucks to manage trucks
 - 		// database/database.go Fix: Prevent duplication of the previous query
 		// about user_admin table
+- Prevent database to begin with another integer than 1 for the first element in database.
 
 - `session, err := models.Store.Get(r, "session-name")
 			utils.ProcessError(err, w)` that line is repetitive in handlers/handlers.go and middlewares/middlewares.go
+- Secure the app (Store into public folder only file client can visit)
 -->
 
 
@@ -78,6 +68,6 @@ Developed by Loick Cherimont
 
 Under MIT License  
 
-Last edition : 2024-11-04
+Last edition : 2024-11-14
 
 
