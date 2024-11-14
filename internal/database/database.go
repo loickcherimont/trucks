@@ -86,28 +86,13 @@ func InitDB(dbName string, U *models.User) {
 	// Like check its "id" or other thing with SELECT sql statement
 }
 
-// func FetchData(username string, password string, retrievedUser models.RetrievedUser) models.RetrievedUser {
-// 	var db *sql.DB
-// 	tableName := "user_admin"
-// 	query := fmt.Sprintf(`SELECT id, username, password FROM %s WHERE (username = ?) AND (password = ?)`, tableName)
-// 	if err := db.QueryRow(query, username, password).Scan(&retrievedUser.Login, &retrievedUser.Password); err != nil {
-// 		log.Fatalf("Query error for FetchData %q", err)
-// 	}
-// 	return retrievedUser
-// }
-
 func FetchAllData() []models.Truck {
 
 	var (
-		err error
-		// query      string
+		err        error
 		dbUsername string = os.Getenv("DB_USERNAME")
 		dbPassword string = os.Getenv("DB_PASSWORD")
 		dbName     string = "db_transport"
-		// adminLogin          string = os.Getenv("TRUCKS_USERNAME")
-		// adminPassword string = os.Getenv("TRUCKS_PASSWORD")
-		// adminHashedPassword string = utils.HashPassword(adminPassword)
-		// db                  *sql.DB
 	)
 
 	// ????
@@ -118,11 +103,7 @@ func FetchAllData() []models.Truck {
 	}
 	defer db.Close()
 
-	var (
-		// err    error
-		trucks []models.Truck
-		// db     *sql.DB
-	)
+	var trucks []models.Truck
 
 	rows, err := db.Query("SELECT * FROM trucks")
 	if err != nil {
@@ -146,3 +127,40 @@ func FetchAllData() []models.Truck {
 
 	return trucks
 }
+
+// Delete into DB a truck by its ID
+func DeleteById(id int64, array []models.Truck) {
+
+	var (
+		err        error
+		dbUsername string = os.Getenv("DB_USERNAME")
+		dbPassword string = os.Getenv("DB_PASSWORD")
+		dbName     string = "db_transport"
+	)
+
+	// ????
+	dataSourceName := fmt.Sprintf("%s:%s@(127.0.0.1:3306)/%s?parseTime=true", dbUsername, dbPassword, dbName)
+	db, err := sql.Open("mysql", dataSourceName)
+	if err != nil {
+		log.Fatalf("Connection error 1: %q\n", err)
+	}
+	defer db.Close()
+
+	result, err := db.Exec("DELETE FROM trucks WHERE id = ?", id)
+	if err != nil {
+		log.Fatalln("Query error from database/database.go in DeleteById: ", err)
+	}
+
+	rows, err := result.RowsAffected()
+	if err != nil {
+		log.Fatalln("Error in database/database.go at DeleteById func: ", err)
+	}
+	if rows != 1 {
+		log.Fatalf("Expected to affect 1 row, affected %d\n", rows)
+	}
+	fmt.Println("Truck deleted!")
+}
+
+// Remarks:
+// There are too much connection to DB
+// Try to initialize once this operation!
