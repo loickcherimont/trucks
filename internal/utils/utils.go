@@ -26,6 +26,7 @@ func HashPassword(password string) string {
 	return string(bytes)
 }
 
+// Returns a boolean indicating hash and password match
 func CheckHashPassword(hash string, password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 
