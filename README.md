@@ -44,12 +44,9 @@ TRUCKS_PASSWORD=YOUR_PASSWORD
 Execute `trucks.sql` from `/database` folder into your **MySQL server**,  
 To prepare initial *trucks* for database.
 
-```bash
-# MySQL Server
-
-source path
-```mysql
-source ./path_to_project/trucks/database/trucks.sql
+```sql
+-- MySQL Server
+mysql> source ./path_to_project/trucks/database/trucks.sql
 ```
 <!--## :thinking: How does it run ?
 
