@@ -37,11 +37,22 @@ TRUCKS_PASSWORD=YOUR_PASSWORD
 
 4. Open a terminal at the root of the project and run the project using `go run main.go`.
 
-4. Go on your favorite browser at: `http://127.0.0.1:8080` to see the first page of the application.
+5. Go on your favorite browser at: `http://127.0.0.1:8080` to see the first page of the application.
 
-<!--## :warning: Prerequisites -->
+## :warning: Prerequisites
+
+Execute `trucks.sql` from `/database` folder into your **MySQL server**,  
+To prepare initial *trucks* for database.
+
+```bash
+# MySQL Server
+
+source path
+```mysql
+source ./path_to_project/trucks/database/trucks.sql
+```
 <!--## :thinking: How does it run ?
--->
+
 
 > [!NOTE]
 > A better version with more features is coming... 🏗️
@@ -59,6 +70,7 @@ With Gin
 - `session, err := models.Store.Get(r, "session-name")
 			utils.ProcessError(err, w)` that line is repetitive in handlers/handlers.go and middlewares/middlewares.go
 - Secure the app (Store into public folder only file client can visit)
+- Avoid infinite session (set max time until user leave the application)
 -->
 
 
