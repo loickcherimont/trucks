@@ -89,7 +89,7 @@ func DeleteTruck(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalln("Conversion error on id: ", err)
 	}
-	database.DeleteById(int64(id), models.Trucks)
+	database.DeleteById(int64(id))
 
 	http.Redirect(w, r, "/admin/trucks", http.StatusSeeOther)
 }
@@ -97,15 +97,19 @@ func DeleteTruck(w http.ResponseWriter, r *http.Request) {
 // TODO - AddTruck func
 func AddTruck(w http.ResponseWriter, r *http.Request) {
 
-	// -- Instructions for future updates -- :
-
 	// Fetch all submitted data + create new ID
+	truck := models.Truck{
+		Id:       int64(len(models.Trucks) + 1),
+		FuelType: r.FormValue("fuel_type"),
+		Payload:  utils.ConvertStringIntoFloat(r.FormValue("payload")),
+		Distance: utils.ConvertStringIntoFloat(r.FormValue("distance")),
+	}
 
-	// Store data into a new {}Truck
-
-	// Update DB (Add to DB the new truck)
+	// Update DB
+	database.AddNewTruck(truck)
 
 	// Redirect user to /admin/trucks
+	http.Redirect(w, r, "/admin/trucks", http.StatusSeeOther)
 }
 
 // REMARKS :
