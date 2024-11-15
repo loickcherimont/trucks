@@ -129,7 +129,7 @@ func FetchAllData() []models.Truck {
 }
 
 // Delete into DB a truck by its ID
-func DeleteById(id int64, array []models.Truck) {
+func DeleteById(id int64) {
 
 	var (
 		err        error
@@ -159,6 +159,39 @@ func DeleteById(id int64, array []models.Truck) {
 		log.Fatalf("Expected to affect 1 row, affected %d\n", rows)
 	}
 	fmt.Println("Truck deleted!")
+}
+
+// Add into DB the new truck using truck a model.Truck struct
+// And update the array of trucks
+func AddNewTruck(truck models.Truck) {
+	var (
+		err        error
+		dbUsername string = os.Getenv("DB_USERNAME")
+		dbPassword string = os.Getenv("DB_PASSWORD")
+		dbName     string = "db_transport"
+	)
+
+	// ????
+	dataSourceName := fmt.Sprintf("%s:%s@(127.0.0.1:3306)/%s?parseTime=true", dbUsername, dbPassword, dbName)
+	db, err := sql.Open("mysql", dataSourceName)
+	if err != nil {
+		log.Fatalf("Connection error 1: %q\n", err)
+	}
+	defer db.Close()
+
+	result, err := db.Exec("INSERT INTO trucks(id, fuel_type, payload, distance) VALUES(?, ?, ?, ?)", truck.Id, truck.FuelType, truck.Payload, truck.Distance)
+	if err != nil {
+		log.Fatalln("Query error from database/database.go in AddNewTruck: ", err)
+	}
+
+	rows, err := result.RowsAffected()
+	if err != nil {
+		log.Fatalln("Error in database/database.go at AddNewTruck func: ", err)
+	}
+	if rows != 1 {
+		log.Fatalf("Expected to affect 1 row, affected %d\n", rows)
+	}
+	fmt.Println("New truck added!")
 }
 
 // Remarks:

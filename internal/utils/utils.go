@@ -3,6 +3,7 @@ package utils
 import (
 	"log"
 	"net/http"
+	"strconv"
 
 	"golang.org/x/crypto/bcrypt"
 )
@@ -31,4 +32,12 @@ func CheckHashPassword(hash string, password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 
 	return err == nil
+}
+
+func ConvertStringIntoFloat(stringNumber string) float64 {
+	floatNumber, err := strconv.ParseFloat(stringNumber, 64)
+	if err != nil {
+		log.Fatalf("Error conversion: %q", err)
+	}
+	return float64(floatNumber)
 }
